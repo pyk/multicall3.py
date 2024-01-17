@@ -1,0 +1,51 @@
+[project]
+name = "multicall3"
+version = "0.1.0"
+description = "Python 3 interface Mutlicall3 smart contract"
+authors = [{ name = "pyk", email = "gm@pyk.sh" }]
+dependencies = ["eth-abi>=5", "web3>=6.11"]
+requires-python = ">=3.8"
+readme = "README.md"
+license = { text = "MIT" }
+
+[tool.pdm.dev-dependencies]
+dev = ["black", "ruff", "mypy", "pytest", "pytest-asyncio"]
+
+[tool.pdm]
+package-type = "library"
+
+[tool.black]
+line-length = 80
+target-version = ['py311']
+skip-string-normalization = true
+
+[tool.ruff]
+line-length = 80
+target-version = 'py311'
+extend-select = [
+    "B",
+    "C4",
+    "FA",
+    "G",
+    "I",
+    "PTH",
+    "Q",
+    "RET",
+    "RUF",
+    "TCH",
+    "UP",
+]
+flake8-quotes = { inline-quotes = "double", multiline-quotes = "double" }
+isort = { force-single-line = true }
+
+[tool.mypy]
+python_version = "3.11"
+plugins = ["pydantic.mypy"]
+strict = false
+
+[tool.pyright]
+reportTypedDictNotRequiredAccess = false
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"

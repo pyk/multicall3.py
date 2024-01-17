@@ -1,0 +1,14 @@
+{
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    },
+    "editor.tabSize": 4
+  },
+  "python.analysis.typeCheckingMode": "strict",
+  "python.analysis.enablePytestSupport": true,
+  "python.languageServer": "Pylance",
+  "python.analysis.autoImportCompletions": true
+}
