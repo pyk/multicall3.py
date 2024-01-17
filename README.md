@@ -61,7 +61,6 @@ async def main():
       abi=ERC20_ABI,
   )
 
-
   results = await multicall3.aggregate3(
       usdc_contract.functions.name(),
       usdc_contract.functions.symbol(),
