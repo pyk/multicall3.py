@@ -1,3 +1,4 @@
+from contextlib import suppress
 from dataclasses import dataclass
 from typing import Any
 
@@ -23,7 +24,6 @@ class Multicall3:
             if address is not None
             else "0xcA11bde05977b3631167028862bE2a173976CA11"
         )
-
         self.contract = self.w3.eth.contract(
             address=self.address,
             abi=ABI,
@@ -72,9 +72,11 @@ class Multicall3:
                 results.append(None)
                 continue
             call_output = result[1]
-            decoded = decode(output_types, call_output)
-            if len(decoded) == 1:
-                decoded = decoded[0]
+            decoded = None
+            with suppress(Exception):
+                decoded = decode(output_types, call_output)
+                if len(decoded) == 1:
+                    decoded = decoded[0]
             results.append(decoded)
 
         return results
