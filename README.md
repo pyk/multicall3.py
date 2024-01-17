@@ -1,4 +1,4 @@
-# multicall3
+# multicall3.py
 
 Python 3 interface for [Multicall3](https://www.multicall3.com/).
 
