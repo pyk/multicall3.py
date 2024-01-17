@@ -13,7 +13,7 @@ from multicall3.abi import ABI
 @dataclass
 class Call:
     fn: AsyncContractFunction
-    require_success: bool
+    allow_failure: bool
 
 
 class Multicall3:
@@ -37,7 +37,7 @@ class Multicall3:
                 aggregated_calls.append(
                     (
                         call.address,
-                        False,
+                        True,  # allow failure by default
                         call._encode_transaction_data(),  # pyright: ignore[reportPrivateUsage]
                     )
                 )
@@ -50,7 +50,7 @@ class Multicall3:
                 aggregated_calls.append(
                     (
                         call.fn.address,
-                        call.require_success,
+                        call.allow_failure,
                         call.fn._encode_transaction_data(),  # pyright: ignore[reportPrivateUsage]
                     )
                 )

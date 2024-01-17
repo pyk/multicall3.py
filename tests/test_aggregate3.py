@@ -82,3 +82,22 @@ async def test_aggregate3_multiple_contracts():
         == b"MKR\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
     )
     assert results[4] == 18
+
+
+@pytest.mark.asyncio
+async def test_aggregate3_allow_failure_by_default():
+    erc20 = w3.eth.contract(
+        address=Web3.to_checksum_address(
+            "0x0ba45a8b5d5575935b8158a88c631e9f9c95a2e5"
+        ),
+        abi=ERC20_ABI,
+    )
+
+    results = await multicall3.aggregate3(
+        erc20.functions.name(),
+        erc20.functions.symbol(),
+        erc20.functions.decimals(),
+    )
+    assert results[0] is None
+    assert results[1] is None
+    assert results[2] is None
