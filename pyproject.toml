@@ -3,7 +3,7 @@ name = "multicall3"
 version = "0.1.0"
 description = "Python 3 interface Mutlicall3 smart contract"
 authors = [{ name = "pyk", email = "gm@pyk.sh" }]
-dependencies = ["eth-abi>=5", "web3>=6.11"]
+dependencies = ["web3>=6.11"]
 requires-python = ">=3.8"
 readme = "README.md"
 license = { text = "MIT" }
