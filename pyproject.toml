@@ -1,6 +1,6 @@
 [project]
 name = "multicall3"
-version = "0.1.3"
+version = "0.1.4"
 description = "Python 3 interface Mutlicall3 smart contract"
 authors = [{ name = "pyk", email = "gm@pyk.sh" }]
 dependencies = ["web3>=6.11"]
