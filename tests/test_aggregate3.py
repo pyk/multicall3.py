@@ -101,3 +101,35 @@ async def test_aggregate3_allow_failure_by_default():
     assert results[0] is None
     assert results[1] is None
     assert results[2] is None
+
+
+@pytest.mark.asyncio
+async def test_aggregate3_erc20_latest():
+    contract = w3.eth.contract(
+        address=Web3.to_checksum_address(USDC),
+        abi=ERC20_ABI,
+    )
+    results = await multicall3.aggregate3(
+        contract.functions.name(),
+        contract.functions.symbol(),
+        contract.functions.decimals(),
+        block_identifier="latest",
+    )
+    assert results[0] == "USD Coin"
+    assert results[1] == "USDC"
+    assert results[2] == 6
+
+
+@pytest.mark.asyncio
+async def test_aggregate3_erc20_before():
+    contract = w3.eth.contract(
+        address=Web3.to_checksum_address(USDC),
+        abi=ERC20_ABI,
+    )
+    with pytest.raises(Exception, match="14353601"):
+        await multicall3.aggregate3(
+            contract.functions.name(),
+            contract.functions.symbol(),
+            contract.functions.decimals(),
+            block_identifier=14353601,
+        )

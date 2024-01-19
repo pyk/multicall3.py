@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from eth_abi.abi import decode
+from eth_typing import BlockIdentifier
 from web3 import AsyncWeb3
 from web3 import Web3
 from web3.contract.async_contract import AsyncContractFunction
@@ -16,8 +17,20 @@ class Call:
     allow_failure: bool
 
 
+def get_deployed_block_number(chain_id: int) -> int:
+    # ethereum
+    if chain_id == 1:
+        return 14353601
+    # arbitrum
+    if chain_id == 42161:
+        return 7654707
+    raise Exception("chain_id not supported")
+
+
 class Multicall3:
-    def __init__(self, w3: AsyncWeb3, address: str | None = None):
+    def __init__(
+        self, w3: AsyncWeb3, chain_id: int = 1, address: str | None = None
+    ):
         self.w3 = w3
         self.address = Web3.to_checksum_address(
             address
@@ -28,8 +41,21 @@ class Multicall3:
             address=self.address,
             abi=ABI,
         )
+        self.block = get_deployed_block_number(chain_id=chain_id)
 
-    async def aggregate3(self, *calls: AsyncContractFunction | Call):
+    async def aggregate3(
+        self,
+        *calls: AsyncContractFunction | Call,
+        block_identifier: BlockIdentifier | None = None,
+    ):
+        if block_identifier is not None:
+            if isinstance(block_identifier, int):
+                if block_identifier <= self.block:
+                    raise Exception(
+                        f"multicall3 only available after block height {self.block}"
+                    )
+            # TODO(pyk): handle hexstr here
+
         aggregated_calls: list[tuple[str, bool, Any]] = []
         outputs_types: list[list[Any]] = []
         for call in calls:
@@ -61,7 +87,11 @@ class Multicall3:
 
         outputs = await self.contract.functions.aggregate3(
             calls=aggregated_calls
-        ).call()
+        ).call(
+            block_identifier="latest"
+            if block_identifier is None
+            else block_identifier
+        )
         # assert len(aggregated_calls) == len(results)
         # build output types
         results: list[None | Any] = []
