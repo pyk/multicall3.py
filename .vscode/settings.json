@@ -1,14 +1,19 @@
 {
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.extraPaths": [".venv/lib/python3.11/site-packages"],
+  "python.analysis.fixAll": ["source.unusedImports"],
+  "python.languageServer": "Pylance",
+  "python.testing.pytestEnabled": true,
+  "python.testing.pytestPath": ".venv/bin/pytest",
+  "python.testing.unittestEnabled": false,
   "[python]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
       "source.organizeImports": "explicit"
     },
-    "editor.tabSize": 4
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true
   },
-  "python.analysis.typeCheckingMode": "strict",
-  "python.analysis.enablePytestSupport": true,
-  "python.languageServer": "Pylance",
-  "python.analysis.autoImportCompletions": true
+  "mypy-type-checker.path": [".venv/bin/mypy"],
+  "python.analysis.typeCheckingMode": "strict"
 }
